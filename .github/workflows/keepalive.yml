@@ -2,10 +2,8 @@ name: Keep Supabase Awake
 
 on:
   schedule:
-    # Exécution toutes les 12 heures
-    - cron: '0 */12 * * *'
+    - cron: '*/30 * * * *'  # toutes les 30 min pour tester
 
-  # Permet aussi de lancer le workflow manuellement
   workflow_dispatch:
 
 jobs:
@@ -15,5 +13,6 @@ jobs:
     steps:
       - name: Ping Supabase
         run: |
-          curl -s "https://cvyhvxhzkoqezrbhkesu.supabase.co/rest/v1/profiles?select=id&limit=1" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}"
+          curl -i -s "https://cvyhvxhzkoqezrbhkesu.supabase.co/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
